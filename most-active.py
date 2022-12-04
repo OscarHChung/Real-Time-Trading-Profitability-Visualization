@@ -10,29 +10,39 @@ user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Ge
 options.add_argument('user-agent={0}'.format(user_agent))
 
 driver = webdriver.Chrome(options=options)
-driver.get('https://www.nasdaq.com/market-activity/most-active')
+driver.get('https://www.tradingview.com/markets/stocks-usa/market-movers-active/')
 html = driver.page_source
 soup = BeautifulSoup(html, features="html5lib")
-most_active_list = soup.find("tbody", {"class": "most-active__body"})
+most_active_list = soup.findAll("tr", {"class": "row-EdyDtqqh listRow"})
 
 
 def print_page_data(lyst):
     counter = 0
-    max_rows = 10
+    positive_counter = 0
+    negative_counter = 0
+    neutral_counter = 0
+
     for row in lyst:
-        if max_rows == 0:
-            break
-        title = row.find("a", {"class": "firstCell"}).getText()
-        change = row.select_one(":nth-child(4)").getText()
+        title = row.find("a", {"class": "apply-common-tooltip tickerNameBox-hMpTPJiS tickerName-hMpTPJiS"}).getText()
+        if (row.find("span", {"class": "positive-C2C2Vilj"}) is None) and (row.find("span", {"class": "negative-C2C2Vilj"}) is None):
+            change = "0.00%"
+            neutral_counter += 1
+        elif row.find("span", {"class": "negative-C2C2Vilj"}) is None:
+            change = "+" + row.find("span", {"class": "positive-C2C2Vilj"}).getText()
+            positive_counter += 1
+        else:
+            change = row.find("span", {"class": "negative-C2C2Vilj"}).getText()
+            negative_counter += 1
         counter += 1
 
         spaces_num = 10
-        if max_rows == 1:
-            spaces_num -= 1
         spaces = (spaces_num - len(title)) * " "
 
         print(str(counter) + ". " + title + spaces + change)
-        max_rows -= 1
+        if counter == 100:
+            print("Positive Stocks: " + str(positive_counter))
+            print("Negative Stocks: " + str(negative_counter))
+            print("Neutral Stocks: " + str(neutral_counter))
 
 
 if __name__ == '__main__':
