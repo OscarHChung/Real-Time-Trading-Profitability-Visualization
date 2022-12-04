@@ -1,7 +1,7 @@
-import option
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from statistics import median, mean
+import re
 
 options = webdriver.ChromeOptions();
 options.add_argument('headless');
@@ -21,18 +21,22 @@ def print_page_data(lyst):
     positive_counter = 0
     negative_counter = 0
     neutral_counter = 0
+    change_list = []
 
     for row in lyst:
         title = row.find("a", {"class": "apply-common-tooltip tickerNameBox-hMpTPJiS tickerName-hMpTPJiS"}).getText()
         if (row.find("span", {"class": "positive-C2C2Vilj"}) is None) and (row.find("span", {"class": "negative-C2C2Vilj"}) is None):
             change = "0.00%"
             neutral_counter += 1
+            change_list.insert(0, 0.00)
         elif row.find("span", {"class": "negative-C2C2Vilj"}) is None:
             change = "+" + row.find("span", {"class": "positive-C2C2Vilj"}).getText()
             positive_counter += 1
+            change_list.insert(0, float(row.find("span", {"class": "positive-C2C2Vilj"}).getText()[:-1]))
         else:
             change = row.find("span", {"class": "negative-C2C2Vilj"}).getText()
             negative_counter += 1
+            change_list.insert(0, float(re.sub(r'[^\x00-\x7F]+','-', row.find("span", {"class": "negative-C2C2Vilj"}).getText()[:-1])))
         counter += 1
 
         spaces_num = 10
@@ -43,6 +47,8 @@ def print_page_data(lyst):
             print("Positive Stocks: " + str(positive_counter))
             print("Negative Stocks: " + str(negative_counter))
             print("Neutral Stocks: " + str(neutral_counter))
+            print("Median: " + str(median(change_list)) + "%")
+            print("Average: " + str(mean(change_list)) + "%")
 
 
 if __name__ == '__main__':
