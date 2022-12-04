@@ -5,7 +5,7 @@
 3. Most used buzzwords when it comes to financial statements
 
 **Methods:**
- - Mainly Python for data collection
+ - Python for data collection
  - BeautifulSoup and Selenium to webscrape data from most websites
  - Excel Spreadsheets data extraction for world cloud generation
 
