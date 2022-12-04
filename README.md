@@ -1,5 +1,5 @@
 # Stocks-Data-Viz
-**Data visualization focusing on 3 main stock subjects:**
+**Data visualization of 3 stock subjects:**
 1. Change in shares value pre- and post-pandemic for various industries, including the tech and airline sectors.
 2. Profitability of the day's most traded stocks
 3. Most used buzzwords when it comes to financial statements
