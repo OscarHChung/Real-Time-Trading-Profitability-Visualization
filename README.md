@@ -11,4 +11,5 @@
  - Excel Spreadsheets data extraction for world cloud generation
 
 **Notes:**
+ - Old version: new one with C++ and other capabilities not posted
  - Sectors data found using a combination of stock indexes such as the S&P Informational Technology Sector and US Dow Jones Industrial Average
