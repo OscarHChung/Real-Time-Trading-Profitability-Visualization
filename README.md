@@ -1,4 +1,4 @@
-# Stock Trading Profitability Visualization
+# Real-Time Trading Profitability Visualization
 
 **Data visualization of 3 stock subjects:**
 1. Change in shares value pre- and post-pandemic for various industries, including the tech and airline sectors.
